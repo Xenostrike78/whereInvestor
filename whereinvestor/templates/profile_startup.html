@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Startup Profile | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Your Startup Profile</h1>
+            <p>Complete your profile to connect with investors</p>
+        </div>
+        
+        <div class="glass-form">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}">Startup Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="form-error">
+                                {% for error in form.name.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.industry.id_for_label }}">Industry</label>
+                        {{ form.industry }}
+                        {% if form.industry.errors %}
+                            <div class="form-error">
+                                {% for error in form.industry.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.business_stage.id_for_label }}">Business Stage</label>
+                        {{ form.business_stage }}
+                        {% if form.business_stage.errors %}
+                            <div class="form-error">
+                                {% for error in form.business_stage.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.funding_needs.id_for_label }}">Funding Needs ($)</label>
+                        {{ form.funding_needs }}
+                        {% if form.funding_needs.errors %}
+                            <div class="form-error">
+                                {% for error in form.funding_needs.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.revenue_model.id_for_label }}">Revenue Model</label>
+                    {{ form.revenue_model }}
+                    {% if form.revenue_model.errors %}
+                        <div class="form-error">
+                            {% for error in form.revenue_model.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.funding_history.id_for_label }}">Funding History</label>
+                    {{ form.funding_history }}
+                    {% if form.funding_history.errors %}
+                        <div class="form-error">
+                            {% for error in form.funding_history.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ form.pitch_deck.id_for_label }}">Pitch Deck</label>
+                        {% if profile.pitch_deck %}
+                            <p class="current-file">Current: {{ profile.pitch_deck.name }}</p>
+                        {% endif %}
+                        {{ form.pitch_deck }}
+                        {% if form.pitch_deck.errors %}
+                            <div class="form-error">
+                                {% for error in form.pitch_deck.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.business_plan.id_for_label }}">Business Plan</label>
+                        {% if profile.business_plan %}
+                            <p class="current-file">Current: {{ profile.business_plan.name }}</p>
+                        {% endif %}
+                        {{ form.business_plan }}
+                        {% if form.business_plan.errors %}
+                            <div class="form-error">
+                                {% for error in form.business_plan.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="form-group toggle-group">
+                    <label for="{{ form.is_visible.id_for_label }}">Profile Visibility</label>
+                    <div class="toggle-container">
+                        {{ form.is_visible }}
+                        <label for="{{ form.is_visible.id_for_label }}" class="toggle-label">
+                            <span class="toggle-text">{% if profile.is_visible %}Visible to Investors{% else %}Hidden from Investors{% endif %}</span>
+                        </label>
+                    </div>
+                    {% if form.is_visible.errors %}
+                        <div class="form-error">
+                            {% for error in form.is_visible.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

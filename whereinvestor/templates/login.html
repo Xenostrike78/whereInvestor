@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Login | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="glass-form">
+        <h2>Login to Your Account</h2>
+        
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <input type="text" name="username" id="id_username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="id_password">Password</label>
+                <input type="password" name="password" id="id_password" required>
+            </div>
+            
+            {% if form.errors %}
+                <div class="form-errors">
+                    <p>Your username and password didn't match. Please try again.</p>
+                </div>
+            {% endif %}
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Login</button>
+            </div>
+        </form>
+        
+        <div class="auth-links">
+            <p>Don't have an account? <a href="{% url 'signup' %}">Sign up</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

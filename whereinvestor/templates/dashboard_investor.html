@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Investor Dashboard | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1>Welcome, {{ user.username }}</h1>
+        <p>Investor Dashboard</p>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="dashboard-main">
+                    <div class="glass-card">
+                        <h2>Your Investor Profile</h2>
+                        {% if investor_profile.name %}
+                            <div class="profile-summary">
+                                <h3>{{ investor_profile.name }}</h3>
+                                <p><strong>Preferred Industries:</strong> {{ investor_profile.preferred_industries }}</p>
+                                
+                                <a href="{% url 'profile_investor' %}" class="btn-secondary">Edit Profile</a>
+                            </div>
+                        {% else %}
+                            <div class="profile-incomplete">
+                                <p>Your profile is incomplete. Please add your investor details.</p>
+                                <a href="{% url 'profile_investor' %}" class="btn-primary">Complete Profile</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h2>Featured Startups</h2>
+                        {% if startups %}
+                            <div class="startup-list">
+                                {% for startup in startups %}
+                                    <div class="startup-card">
+                                        <h3>{{ startup.name }}</h3>
+                                        <p><strong>Industry:</strong> {{ startup.industry }}</p>
+                                        <p><strong>Stage:</strong> {{ startup.get_business_stage_display }}</p>
+                                        <p class="startup-excerpt">{{ startup.revenue_model|truncatewords:15 }}</p>
+                                        
+                                        {% if startup.funding_needs %}
+                                            <p><strong>Funding Needs:</strong> ${{ startup.funding_needs }}</p>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <p>No startups available at the moment.</p>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h2>Recent Community Activity</h2>
+                        {% if recent_posts %}
+                            <div class="recent-posts">
+                                {% for post in recent_posts %}
+                                    <div class="post-item">
+                                        <h3>{{ post.title }}</h3>
+                                        <p class="post-meta">By {{ post.author.username }} on {{ post.created_at|date:"F j, Y" }}</p>
+                                        <p class="post-excerpt">{{ post.content|truncatewords:20 }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'community' %}" class="btn-link">View All Community Posts</a>
+                        {% else %}
+                            <p>No recent community activity.</p>
+                            <a href="{% url 'community' %}" class="btn-secondary">Start a Conversation</a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="dashboard-sidebar">
+                    <div class="glass-card quick-links">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="{% url 'profile_investor' %}">Edit Profile</a></li>
+                            <li><a href="{% url 'community' %}">Community</a></li>
+                            <li><a href="{% url 'forum' %}">Discussion Forum</a></li>
+                            <li><a href="{% url 'mentors' %}">Mentor Directory</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card tips">
+                        <h3>Tips for Investors</h3>
+                        <ul>
+                            <li>Complete your profile to help startups understand your investment preferences.</li>
+                            <li>Review startup profiles regularly as new ventures join the platform.</li>
+                            <li>Engage with the community to build relationships with entrepreneurs.</li>
+                            <li>Contribute to discussions to share your expertise and insights.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Investor Profile | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="profile-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Your Investor Profile</h1>
+            <p>Complete your profile to connect with startups</p>
+        </div>
+        
+        <div class="glass-form">
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Investor Name / Firm Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="form-error">
+                            {% for error in form.name.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.preferred_industries.id_for_label }}">Preferred Industries</label>
+                    {{ form.preferred_industries }}
+                    <div class="form-help">Separate multiple industries with commas (e.g., "Fintech, Healthcare, AI")</div>
+                    {% if form.preferred_industries.errors %}
+                        <div class="form-error">
+                            {% for error in form.preferred_industries.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.past_investments.id_for_label }}">Past Investments</label>
+                    {{ form.past_investments }}
+                    {% if form.past_investments.errors %}
+                        <div class="form-error">
+                            {% for error in form.past_investments.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.investment_preferences.id_for_label }}">Investment Preferences</label>
+                    {{ form.investment_preferences }}
+                    <div class="form-help">Describe your investment criteria, stage preferences, ticket size, etc.</div>
+                    {% if form.investment_preferences.errors %}
+                        <div class="form-error">
+                            {% for error in form.investment_preferences.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Save Profile</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

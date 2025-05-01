@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Startup Dashboard | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h1>Welcome, {{ user.username }}</h1>
+        <p>Startup Dashboard</p>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="container">
+            <div class="dashboard-grid">
+                <div class="dashboard-main">
+                    <div class="glass-card">
+                        <h2>Your Startup Profile</h2>
+                        {% if startup_profile.name %}
+                            <div class="profile-summary">
+                                <h3>{{ startup_profile.name }}</h3>
+                                <p><strong>Industry:</strong> {{ startup_profile.industry }}</p>
+                                <p><strong>Stage:</strong> {{ startup_profile.get_business_stage_display }}</p>
+                                
+                                {% if startup_profile.is_visible %}
+                                    <p class="profile-status visible">Your profile is visible to investors</p>
+                                {% else %}
+                                    <p class="profile-status hidden">Your profile is hidden from investors</p>
+                                {% endif %}
+                                
+                                <a href="{% url 'profile_startup' %}" class="btn-secondary">Edit Profile</a>
+                            </div>
+                        {% else %}
+                            <div class="profile-incomplete">
+                                <p>Your profile is incomplete. Please add your startup details.</p>
+                                <a href="{% url 'profile_startup' %}" class="btn-primary">Complete Profile</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h2>Recent Community Activity</h2>
+                        {% if recent_posts %}
+                            <div class="recent-posts">
+                                {% for post in recent_posts %}
+                                    <div class="post-item">
+                                        <h3>{{ post.title }}</h3>
+                                        <p class="post-meta">By {{ post.author.username }} on {{ post.created_at|date:"F j, Y" }}</p>
+                                        <p class="post-excerpt">{{ post.content|truncatewords:20 }}</p>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <a href="{% url 'community' %}" class="btn-link">View All Community Posts</a>
+                        {% else %}
+                            <p>No recent community activity.</p>
+                            <a href="{% url 'community' %}" class="btn-secondary">Start a Conversation</a>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="dashboard-sidebar">
+                    <div class="glass-card quick-links">
+                        <h3>Quick Links</h3>
+                        <ul>
+                            <li><a href="{% url 'profile_startup' %}">Edit Profile</a></li>
+                            <li><a href="{% url 'community' %}">Community</a></li>
+                            <li><a href="{% url 'forum' %}">Discussion Forum</a></li>
+                            <li><a href="{% url 'mentors' %}">Find Mentors</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="glass-card tips">
+                        <h3>Tips for Startups</h3>
+                        <ul>
+                            <li>Complete your profile with detailed information to attract investors.</li>
+                            <li>Upload a compelling pitch deck that showcases your value proposition.</li>
+                            <li>Engage with the community to build your network and visibility.</li>
+                            <li>Connect with mentors who can provide guidance and introductions.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

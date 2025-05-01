@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}WhereInvestor - Connect Startups with Investors{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Where Visionaries Meet Capital</h1>
+        <p>WhereInvestor connects innovative startups with strategic investors for meaningful partnerships that drive growth and create value.</p>
+        <div class="hero-buttons">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn-primary">Go to Dashboard</a>
+            {% else %}
+                <a href="{% url 'signup' %}" class="btn-primary">Get Started</a>
+                <a href="{% url 'login' %}" class="btn-secondary">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="about-section">
+    <div class="container">
+        <h2>About WhereInvestor</h2>
+        <div class="about-cards">
+            <div class="glass-card">
+                <h3>For Startups</h3>
+                <p>Showcase your venture to a curated network of investors looking for the next big opportunity. Get funding, mentorship, and strategic partnerships.</p>
+            </div>
+            <div class="glass-card">
+                <h3>For Investors</h3>
+                <p>Discover promising startups across various industries and investment stages. Invest in ventures aligned with your portfolio strategy and investment thesis.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2>Key Features</h2>
+        <div class="features-grid">
+            <div class="feature">
+                <h3>Startup Profiles</h3>
+                <p>Detailed profiles highlighting business model, traction, team, and funding needs with document sharing capabilities.</p>
+            </div>
+            <div class="feature">
+                <h3>Investor Matching</h3>
+                <p>Connect with investors based on industry focus, stage preference, and investment criteria.</p>
+            </div>
+            <div class="feature">
+                <h3>Community Forum</h3>
+                <p>Engage in discussions, share insights, and learn from the experiences of fellow entrepreneurs and investors.</p>
+            </div>
+            <div class="feature">
+                <h3>Mentor Directory</h3>
+                <p>Access a curated list of industry experts and seasoned professionals offering guidance and support.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="cta-section">
+    <div class="container">
+        <h2>Join the WhereInvestor Community Today</h2>
+        <p>Whether you're building the next unicorn or looking to invest in tomorrow's success stories, WhereInvestor provides the platform to make meaningful connections.</p>
+        {% if not user.is_authenticated %}
+            <a href="{% url 'signup' %}" class="btn-primary">Create Your Account</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

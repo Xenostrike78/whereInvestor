@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ topic.title }} | WhereInvestor Forum{% endblock %}
+
+{% block content %}
+<div class="forum-detail-page">
+    <div class="container">
+        <div class="page-header">
+            <div class="breadcrumbs">
+                <a href="{% url 'forum' %}">Forums</a> &gt; 
+                <span>{{ topic.category.name }}</span>
+            </div>
+            <h1>{{ topic.title }}</h1>
+        </div>
+        
+        <div class="forum-detail-content">
+            <div class="glass-card topic-container">
+                <div class="topic-header">
+                    <div class="topic-meta">
+                        <span class="author">By {{ topic.author.username }}</span>
+                        <span class="date">{{ topic.created_at|date:"F j, Y" }}</span>
+                    </div>
+                </div>
+                <div class="topic-body">
+                    <p>{{ topic.content }}</p>
+                </div>
+            </div>
+            
+            <h2>Replies</h2>
+            
+            {% if replies %}
+                <div class="replies-list">
+                    {% for reply in replies %}
+                        <div class="glass-card reply">
+                            <div class="reply-header">
+                                <div class="reply-meta">
+                                    <span class="author">{{ reply.author.username }}</span>
+                                    <span class="date">{{ reply.created_at|date:"F j, Y" }}</span>
+                                </div>
+                            </div>
+                            <div class="reply-body">
+                                <p>{{ reply.content }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="no-replies">No replies yet. Be the first to respond!</p>
+            {% endif %}
+            
+            <div class="glass-card reply-form-container">
+                <h3>Post a Reply</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.content.id_for_label }}">Your Reply</label>
+                        {{ form.content }}
+                        {% if form.content.errors %}
+                            <div class="form-error">
+                                {% for error in form.content.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Post Reply</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

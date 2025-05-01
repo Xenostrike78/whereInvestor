@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Discussion Forum | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="forum-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Discussion Forum</h1>
+            <p>Engage in discussions on various topics related to startups and investments</p>
+        </div>
+        
+        <div class="forum-content">
+            <div class="forum-sidebar">
+                <div class="glass-card">
+                    <h2>Create a Topic</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            <label for="{{ form.category.id_for_label }}">Category</label>
+                            {{ form.category }}
+                            {% if form.category.errors %}
+                                <div class="form-error">
+                                    {% for error in form.category.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.title.id_for_label }}">Title</label>
+                            {{ form.title }}
+                            {% if form.title.errors %}
+                                <div class="form-error">
+                                    {% for error in form.title.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="{{ form.content.id_for_label }}">Content</label>
+                            {{ form.content }}
+                            {% if form.content.errors %}
+                                <div class="form-error">
+                                    {% for error in form.content.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Create Topic</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="forum-main">
+                {% if categories_with_topics %}
+                    <div class="forum-categories">
+                        {% for item in categories_with_topics %}
+                            <div class="glass-card forum-category">
+                                <h2>{{ item.category.name }}</h2>
+                                <p class="category-description">{{ item.category.description }}</p>
+                                
+                                {% if item.topics %}
+                                    <div class="forum-topics">
+                                        {% for topic in item.topics %}
+                                            <div class="forum-topic">
+                                                <h3><a href="{% url 'forum_detail' topic_id=topic.id %}">{{ topic.title }}</a></h3>
+                                                <div class="topic-meta">
+                                                    <span class="author">By {{ topic.author.username }}</span>
+                                                    <span class="date">{{ topic.created_at|date:"F j, Y" }}</span>
+                                                </div>
+                                                <p class="topic-excerpt">{{ topic.content|truncatewords:20 }}</p>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="no-topics">No topics yet in this category. Start a conversation!</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-categories">
+                        <p>No categories found. Please contact an administrator.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

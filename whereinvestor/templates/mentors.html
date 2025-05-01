@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Mentor Directory | WhereInvestor{% endblock %}
+
+{% block content %}
+<div class="mentors-page">
+    <div class="container">
+        <div class="page-header">
+            <h1>Mentor Directory</h1>
+            <p>Connect with experienced mentors for guidance and support</p>
+        </div>
+        
+        <div class="mentors-content">
+            {% if mentors %}
+                <div class="mentors-grid">
+                    {% for mentor in mentors %}
+                        <div class="glass-card mentor-card">
+                            <h2>{{ mentor.name }}</h2>
+                            <div class="mentor-expertise">
+                                <h3>Expertise</h3>
+                                <p>{{ mentor.expertise }}</p>
+                            </div>
+                            <div class="mentor-bio">
+                                <h3>Bio</h3>
+                                <p>{{ mentor.bio }}</p>
+                            </div>
+                            <div class="mentor-contact">
+                                <h3>Contact</h3>
+                                <p><a href="mailto:{{ mentor.contact_email }}">{{ mentor.contact_email }}</a></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-mentors">
+                    <p>No mentors are available at the moment. Please check back later.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
